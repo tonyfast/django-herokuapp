@@ -3,7 +3,7 @@ python:
 - 2.7
 notifications:
   email: false
-branches:
+branches: 
   only:
   - cli
 before_install:
