@@ -1,31 +1,27 @@
-# borrowed from here:  https://gist.github.com/dan-blanchard/7045057
-# lint it here: http://lint.travis-ci.org/
 language: python
 python:
-  - 2.7
+- 2.7
 notifications:
   email: false
- 
-# whitelist
 branches:
   only:
-    - cli
- 
-# Setup anaconda
+  - cli
 before_install:
-  - if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-2.0.0-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-2.0.0-Linux-x86_64.sh -O miniconda.sh; fi
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=/home/travis/anaconda/bin:$PATH
-  # The next couple lines fix a crash with multiprocessing on Travis and
-  # are not specific to using Miniconda
-  - sudo rm -rf /dev/shm
-  - sudo ln -s /run/shm /dev/shm
-# Install conda packages
+- if [ ${TRAVIS_PYTHON_VERSION:0:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda-2.0.0-Linux-x86_64.sh
+  -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-2.0.0-Linux-x86_64.sh
+  -O miniconda.sh; fi
+- chmod +x miniconda.sh
+- ./miniconda.sh -b
+- export PATH=/home/travis/anaconda/bin:$PATH
+- sudo rm -rf /dev/shm
+- sudo ln -s /run/shm /dev/shm
 install:
-  - conda install --yes -c https://conda.binstar.org/faircloth-lab python=$TRAVIS_PYTHON_VERSION numpy=1.7 biopython=1.62 pytest=2.4.2 abyss velvet lastz mafft
-  - python setup.py install
- 
-# Run test
+- conda install --yes -c https://conda.binstar.org/faircloth-lab python=$TRAVIS_PYTHON_VERSION
+  numpy=1.7 biopython=1.62 pytest=2.4.2 abyss velvet lastz mafft
+- python setup.py install
 script:
-  - py.test 
+- py.test
+deploy:
+  api_key:
+    secure: ucOZWbPC7rpMDQBY7SpJYSsWVyghdZD7wvJdtCmJO9kEd4VSdXTwIevbW4Ac4E9HZ6emUmKwhm9pfBF/a3TaE+UasXAhiNFLaFVV7jRr/GImKgM475p/fZeG8ccyv1AxTwb1PVxUm+J8a8BKOej+7B4iwRP81DDmvGNZZU6epwf64z4DXwjNKrqbshni/PsN+0u8vSNO7g/q7opA0Xy9a+xoir3RJqYxspUjxYsKx6B9a5Kj+mmb6VtOjrWq6DamQaI/GZb/K0PHQx2Rg4NHVN/ms2umbjlDlkwDt8Us2jFL6bCW6w5BugrWrRR986Bkq2MvDOv9MqvJr3rbPeyi3zrQ8VHRBVGfpKVgD/OHzatyBEp2OnjX2lumapU5gWg8rglja4rd6TKsMbNPi/wTEFDjbB95YXBM6p9eb53/L0Kdr3pkk3qMj6pzQfJLsTELFVsiFWUDyVAMJH0/CeF6TA9LlHQMHwSjt5VTYt/ySqP/y8MigZxtpG9++2p1DRZMePdJs4KMLUvE07relSpA/s0+Qions7xS6ybup3SNajV4qBIEM5FAJt91sV/yKTS/4FYFV+io2K1XkcH1tVk5WfQuLp5f5xUcoRNlA8rB12kuT7tCrqyEbvyLSkGhBqTwlway+FR/nUL393RS8xaTq7tR8xOM7uxPNgknrL+5KQ8=
+  app: django-no-go-go
